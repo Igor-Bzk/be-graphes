@@ -1,0 +1,152 @@
+@startuml
+
+class Graph {
+    - mapId: String
+    - mapName: String
+    - nodes: List<Node>
+    - graphStatistics: GraphStatistics
+
+    + Graph(mapId: String, mapName: String, nodes: List<Node>, graphStatistics: GraphStatistics)
+    + getGraphInformation(): GraphStatistics
+    + get(id: int): Node
+    + size(): int
+    + getNodes(): List<Node>
+    + getMapId(): String
+    + getMapName(): String
+    + transpose(): Graph
+    + toString(): String
+}
+
+interface Arc {
+    + getOrigin() : Node
+    + getDestination() : Node
+    + getLength() : float
+    + getTravelTime(speed : double) : double
+    + getMinimumTravelTime() : double
+    + getRoadInformation() : RoadInformation
+    + getPoints() : List<Point>
+}
+
+class ArcBackward {
+    - originalArc : Arc
+    
+    + ArcBackward(originalArc : Arc)
+    + getOrigin() : Node
+    + getDestination() : Node
+    + getLength() : float
+    + getRoadInformation() : RoadInformation
+    + getPoints() : List<Point>
+}
+
+class ArcForward {
+    - origin : Node
+    - destination : Node
+    - length : float
+    - info : RoadInformation
+    - points : List<Point>
+    
+    + ArcForward(origin : Node, destination : Node, length : float, info : RoadInformation, points : List<Point>)
+    + getOrigin() : Node
+    + getDestination() : Node
+    + getLength() : float
+    + getRoadInformation() : RoadInformation
+    + getPoints() : List<Point>
+}
+
+class GraphStatistics {
+    - boundingBox : BoundingBox
+    - nbRoadOneWay : int
+    - nbRoadTwoWays : int
+    - maximumSpeed : int
+    - maximumLength : float
+
+    + GraphStatistics(boundingBox : BoundingBox, nbRoadOneWay : int, nbRoadTwoWays : int,
+        maximumSpeed : int, maximumLength : float)
+    + getBoundingBox() : BoundingBox
+    + getOneWayRoadCount() : int
+    + getTwoWaysRoadCount() : int
+    + getArcCount() : int
+    + hasMaximumSpeed() : boolean
+    + getMaximumSpeed() : int
+    + getMaximumLength() : float
+}
+
+class BoundingBox {
+    - topLeft : Point
+    - bottomRight : Point
+
+    + BoundingBox(topLeft : Point, bottomRight : Point)
+    + getBottomRightPoint() : Point
+    + getTopLeftPoint() : Point
+    + extend(left : float, top : float, right : float, bottom : float) : BoundingBox
+    + extend(size : float) : BoundingBox
+    + contains(point : Point) : boolean
+    + contains(other : BoundingBox) : boolean
+    + toString() : String
+}
+
+class Point {
+    + float longitude
+    + float latitude
+    + static final double EARTH_RADIUS = 6378137.0
+    + Point(float longitude, float latitude)
+    + float getLongitude()
+    + float getLatitude()
+    + double distanceTo(Point target)
+    + String toString()
+    + static double distance(Point p1, Point p2)
+}
+
+class RoadInformation {
+    + RoadType type
+    + AccessRestrictions access
+    + boolean oneway
+    + int maxSpeed
+    + String name
+    + RoadInformation(RoadType, AccessRestrictions, boolean, int, String)
+    + AccessRestrictions getAccessRestrictions()
+    + RoadType getType()
+    + boolean isOneWay()
+    + int getMaximumSpeed()
+    + String getName()
+    + String toString()
+}
+
+class Path {
+    - Graph graph
+    - Node origin
+    - List<Arc> arcs
+
+    + Path(Graph)
+    + Path(Graph, Node)
+    + Path(Graph, List<Arc>)
+    + Graph getGraph()
+    + Node getOrigin()
+    + Node getDestination()
+    + List<Arc> getArcs()
+    + boolean isEmpty()
+    + int size()
+    + boolean isValid()
+    + float getLength()
+    + double getTravelTime(double)
+    + double getMinimumTravelTime()
+    + createFastestPathFromNodes(Graph, List<Node>)
+    + createShortestPathFromNodes(Graph, List<Node>)
+    + concatenate(Path...)
+}
+
+class AccessRestrictions {
+    - EnumMap<AccessMode, AccessRestriction> restrictions
+
+    + AccessRestrictions()
+    + AccessRestrictions(EnumMap<AccessMode, AccessRestriction>)
+    + AccessRestriction getRestrictionFor(AccessMode)
+    + boolean isAllowedForAny(AccessMode, EnumSet<AccessRestriction>)
+    + boolean isAllowedFor(AccessMode, AccessRestriction)
+    + boolean areAllAllowedForAny(EnumSet<AccessMode>, EnumSet<AccessRestriction>)
+}
+
+ArcForward .up. Arc
+ArcBackward .up. Arc
+
+@enduml
