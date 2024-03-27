@@ -28,22 +28,23 @@ public class Path {
      * @return A path that goes through the given list of nodes.
      * 
      * @throws IllegalArgumentException If the list of nodes is not valid, i.e. two
-     *         consecutive nodes in the list are not connected in the graph.
+     *                                  consecutive nodes in the list are not
+     *                                  connected in the graph.
      * 
      * @deprecated Need to be implemented.
      */
     public static Path createFastestPathFromNodes(Graph graph, List<Node> nodes)
             throws IllegalArgumentException {
         List<Arc> arcs = new ArrayList<Arc>();
-        for(int i = 0;i<nodes.size() ;i++){
-                for(Arc s: nodes.get(i).getSuccessors()){
-                    if (s.getDestination().equals(nodes.get(i + 1))){
-                        arcs.add(s);
-                        break;
-                    }
+        for (int i = 0; i < nodes.size(); i++) {
+            for (Arc s : nodes.get(i).getSuccessors()) {
+                if (s.getDestination().equals(nodes.get(i + 1))) {
+                    arcs.add(s);
+                    break;
                 }
-                throw IllegalArgumentException;
-
+            }
+            throw new IllegalArgumentException("invalid node path");
+        }
         return new Path(graph, arcs);
     }
 
@@ -57,7 +58,8 @@ public class Path {
      * @return A path that goes through the given list of nodes.
      * 
      * @throws IllegalArgumentException If the list of nodes is not valid, i.e. two
-     *         consecutive nodes in the list are not connected in the graph.
+     *                                  consecutive nodes in the list are not
+     *                                  connected in the graph.
      * 
      * @deprecated Need to be implemented.
      */
@@ -76,8 +78,9 @@ public class Path {
      * @return Concatenated path.
      * 
      * @throws IllegalArgumentException if the paths cannot be concatenated (IDs of
-     *         map do not match, or the end of a path is not the beginning of the
-     *         next).
+     *                                  map do not match, or the end of a path is
+     *                                  not the beginning of the
+     *                                  next).
      */
     public static Path concatenate(Path... paths) throws IllegalArgumentException {
         if (paths.length == 0) {
@@ -91,7 +94,7 @@ public class Path {
             }
         }
         ArrayList<Arc> arcs = new ArrayList<>();
-        for (Path path: paths) {
+        for (Path path : paths) {
             arcs.addAll(path.getArcs());
         }
         Path path = new Path(paths[0].getGraph(), arcs);
@@ -126,7 +129,7 @@ public class Path {
      * Create a new path containing a single node.
      * 
      * @param graph Graph containing the path.
-     * @param node Single node of the path.
+     * @param node  Single node of the path.
      */
     public Path(Graph graph, Node node) {
         this.graph = graph;
@@ -138,7 +141,7 @@ public class Path {
      * Create a new path with the given list of arcs.
      * 
      * @param graph Graph containing the path.
-     * @param arcs Arcs to construct the path.
+     * @param arcs  Arcs to construct the path.
      */
     public Path(Graph graph, List<Arc> arcs) {
         this.graph = graph;
