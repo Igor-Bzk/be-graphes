@@ -220,7 +220,7 @@ public class Path {
         boolean R32 = true;
 
         if(!(this.isEmpty())) {
-            R1 = false; //it is NOT empty
+            R1 = false; //it IS NOT empty
         }
         
         if(this.size() != 1) {
