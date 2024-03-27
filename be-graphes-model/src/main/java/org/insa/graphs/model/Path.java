@@ -213,7 +213,35 @@ public class Path {
      */
     public boolean isValid() {
         // TODO:
-        return false;
+        boolean R = true;
+        boolean R1 = true;
+        boolean R2 = true;
+        boolean R31 = true;
+        boolean R32 = true;
+
+        if(!(this.isEmpty())) {
+            R1 = false; //it is NOT empty
+        }
+        
+        if(this.size() != 1) {
+            R2 = false; //it DOES NOT contain a single node
+        }
+        
+        if(!(this.getArcs().get(0).getOrigin().equals(this.getOrigin()))) {
+            R31 = false; //the first arc HAS NOT for origin the origin of the path
+        }
+
+        for (int i=0;i<(arcs.size()-1);i++) {
+            if (!(this.getArcs().get(i).getDestination().equals(this.getArcs().get(i+1).getOrigin()))) {
+                R32 = false; //for two consecutive arcs, the destination of the first one CAN NOT BE the origin of the second one
+                break;
+            }
+        }
+
+        if(!R1 && !R2 && !R31 && !R32) {
+            R = false;
+        }
+        return R;
     }
 
     /**
