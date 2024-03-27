@@ -275,6 +275,27 @@ public class Path {
             R = false;
         }
         return R;
+
+        /*
+         * if (this.arcs.isEmpty()){ //graphe vide ou avec un unique noeud
+         * return true;
+         * }
+         * if (this.arcs.get(0).getOrigin().equals(this.origin)) { //l'origine du
+         * premier arc est la meme que celle de Path
+         * int size = this.arcs.size()
+         * if (size == 1){ //si c'est l'unique arc c'est bon
+         * return true;
+         * } else {
+         * for (int i = 0; i < (size - 1) ;i++){
+         * if
+         * (this.arcs.get(i).getDestination().equals(this.arcs.get(i+1).getOrigin())){
+         * return false;
+         * }
+         * }
+         * return true;
+         * }
+         * }
+         */
     }
 
     /**
