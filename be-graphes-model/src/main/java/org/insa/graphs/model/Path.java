@@ -31,19 +31,31 @@ public class Path {
      *                                  consecutive nodes in the list are not
      *                                  connected in the graph.
      * 
-     * @deprecated Need to be implemented.
+     *
      */
     public static Path createFastestPathFromNodes(Graph graph, List<Node> nodes)
             throws IllegalArgumentException {
+        if (nodes.size() == 1) {
+            return new Path(graph, nodes.get(0));
+        }
+
+        if (nodes.isEmpty()) {
+            return new Path(graph);
+        }
         List<Arc> arcs = new ArrayList<Arc>();
-        for (int i = 0; i < nodes.size(); i++) {
+        for (int i = 0; i < (nodes.size() - 1); i++) {
+            Arc min_s = null;
             for (Arc s : nodes.get(i).getSuccessors()) {
-                if (s.getDestination().equals(nodes.get(i + 1))) {
-                    arcs.add(s);
-                    break;
+                if (s.getDestination().equals(nodes.get(i + 1))
+                        && ((min_s == null) || (s.getTravelTime(s.getRoadInformation().getMaximumSpeed()) < min_s
+                                .getTravelTime(min_s.getRoadInformation().getMaximumSpeed())))) {
+                    min_s = s;
                 }
             }
-            throw new IllegalArgumentException("invalid node path");
+            if (min_s == null) {
+                throw new IllegalArgumentException("invalid node path");
+            }
+            arcs.add(min_s);
         }
         return new Path(graph, arcs);
     }
@@ -65,8 +77,28 @@ public class Path {
      */
     public static Path createShortestPathFromNodes(Graph graph, List<Node> nodes)
             throws IllegalArgumentException {
+        if (nodes.size() == 1) {
+            return new Path(graph, nodes.get(0));
+        }
+
+        if (nodes.isEmpty()) {
+            return new Path(graph);
+        }
+
         List<Arc> arcs = new ArrayList<Arc>();
-        // TODO:
+        for (int i = 0; i < (nodes.size() - 1); ++i) {
+            Arc min_s = null;
+            for (Arc s : nodes.get(i).getSuccessors()) {
+                if (s.getDestination().equals(nodes.get(i + 1))
+                        && ((min_s == null) || (s.getLength() < min_s.getLength()))) {
+                    min_s = s;
+                }
+            }
+            if (min_s == null) {
+                throw new IllegalArgumentException("invalid node path");
+            }
+            arcs.add(min_s);
+        }
         return new Path(graph, arcs);
     }
 

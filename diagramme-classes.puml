@@ -1,10 +1,7 @@
-@startuml
+@startuml graphes
 
 class Graph {
-    - mapId: String
-    - mapName: String
     - nodes: List<Node>
-    - graphStatistics: GraphStatistics
 
     + Graph(mapId: String, mapName: String, nodes: List<Node>, graphStatistics: GraphStatistics)
     + getGraphInformation(): GraphStatistics
@@ -21,51 +18,16 @@ interface Arc {
     + getOrigin() : Node
     + getDestination() : Node
     + getLength() : float
-    + getTravelTime(speed : double) : double
-    + getMinimumTravelTime() : double
-    + getRoadInformation() : RoadInformation
-    + getPoints() : List<Point>
-}
-
-class ArcBackward {
-    - originalArc : Arc
-    
-    + ArcBackward(originalArc : Arc)
-    + getOrigin() : Node
-    + getDestination() : Node
-    + getLength() : float
-    + getRoadInformation() : RoadInformation
-    + getPoints() : List<Point>
-}
-
-class ArcForward {
-    - origin : Node
-    - destination : Node
-    - length : float
-    - info : RoadInformation
-    - points : List<Point>
-    
-    + ArcForward(origin : Node, destination : Node, length : float, info : RoadInformation, points : List<Point>)
-    + getOrigin() : Node
-    + getDestination() : Node
-    + getLength() : float
-    + getRoadInformation() : RoadInformation
-    + getPoints() : List<Point>
 }
 
 class Node {
-    - int id
-    - Point point
     - ArrayList<Arc> successors
 
     + Node(int id, Point point)
-    + int getId()
     + int getNumberOfSuccessors()
     + boolean hasSuccessors()
     + List<Arc> getSuccessors()
-    + Point getPoint()
     + void addSuccessor(Arc arc)
-
     + static Arc linkNodes(Node origin, Node destination, float length,
             RoadInformation roadInformation, ArrayList<Point> points)
 }
@@ -84,16 +46,20 @@ class Path {
     + List<Arc> getArcs()
     + boolean isEmpty()
     + int size()
-    + boolean isValid()
-    + float getLength()
-    + double getTravelTime(double)
-    + double getMinimumTravelTime()
-    + createFastestPathFromNodes(Graph, List<Node>)
-    + createShortestPathFromNodes(Graph, List<Node>)
-    + concatenate(Path...)
 }
 
-ArcForward .up. Arc
-ArcBackward .up. Arc
+class RoadInformation{
+    - Roadtype type
+}
+
+Graph "1" *-> "*" Node : est composé de
+Node "1" o-> "*" Arc : est le début de
+Path "1" *-> "1" Node : est composé de
+Arc "1" *-> "2" Node : lie
+Path "1" *-> "1..*" Arc : est composé de 
+Path "1" *-> "1" Graph : est dans
+Arc --> RoadInformation : dsqd
+
+
 
 @enduml
