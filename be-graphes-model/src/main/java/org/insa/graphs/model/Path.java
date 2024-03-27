@@ -35,7 +35,15 @@ public class Path {
     public static Path createFastestPathFromNodes(Graph graph, List<Node> nodes)
             throws IllegalArgumentException {
         List<Arc> arcs = new ArrayList<Arc>();
-        // TODO:
+        for(int i = 0;i<nodes.size() ;i++){
+                for(Arc s: nodes.get(i).getSuccessors()){
+                    if (s.getDestination().equals(nodes.get(i + 1))){
+                        arcs.add(s);
+                        break;
+                    }
+                }
+                throw IllegalArgumentException;
+
         return new Path(graph, arcs);
     }
 
