@@ -251,26 +251,27 @@ public class Path {
         boolean R31 = true;
         boolean R32 = true;
 
-        if(!(this.isEmpty())) {
-            R1 = false; //it IS NOT empty
-        }
-        
-        if(this.size() != 1) {
-            R2 = false; //it DOES NOT contain a single node
-        }
-        
-        if(!(this.getArcs().get(0).getOrigin().equals(this.getOrigin()))) {
-            R31 = false; //the first arc HAS NOT for origin the origin of the path
+        if (!(this.isEmpty())) {
+            R1 = false; // it IS NOT empty
         }
 
-        for (int i=0;i<(arcs.size()-1);i++) {
-            if (!(this.getArcs().get(i).getDestination().equals(this.getArcs().get(i+1).getOrigin()))) {
-                R32 = false; //for two consecutive arcs, the destination of the first one CAN NOT BE the origin of the second one
+        if (this.size() != 1) {
+            R2 = false; // it DOES NOT contain a single node
+        }
+
+        if (!(this.getArcs().get(0).getOrigin().equals(this.getOrigin()))) {
+            R31 = false; // the first arc HAS NOT for origin the origin of the path
+        }
+
+        for (int i = 0; i < (arcs.size() - 1); i++) {
+            if (!(this.getArcs().get(i).getDestination().equals(this.getArcs().get(i + 1).getOrigin()))) {
+                R32 = false; // for two consecutive arcs, the destination of the first one CAN NOT BE the
+                             // origin of the second one
                 break;
             }
         }
 
-        if(!R1 && !R2 && !R31 && !R32) {
+        if (!R1 && !R2 && !R31 && !R32) {
             R = false;
         }
         return R;
@@ -281,11 +282,17 @@ public class Path {
      * 
      * @return Total length of the path (in meters).
      * 
-     * @deprecated Need to be implemented.
      */
     public float getLength() {
-        // TODO:
-        return 0;
+        float len = 0;
+        if (!this.arcs.isEmpty()) {
+            for (Arc arc : this.arcs) {
+                len = arc.getLength();
+            }
+            return len;
+        } else {
+            return 0;
+        }
     }
 
     /**
@@ -296,11 +303,17 @@ public class Path {
      * @return Time (in seconds) required to travel this path at the given speed (in
      *         kilometers-per-hour).
      * 
-     * @deprecated Need to be implemented.
      */
     public double getTravelTime(double speed) {
-        // TODO:
-        return 0;
+        double len = 0;
+        if (!this.arcs.isEmpty()) {
+            for (Arc arc : this.arcs) {
+                len = arc.getTravelTime(speed);
+            }
+            return len;
+        } else {
+            return 0;
+        }
     }
 
     /**
@@ -312,8 +325,15 @@ public class Path {
      * @deprecated Need to be implemented.
      */
     public double getMinimumTravelTime() {
-        // TODO:
-        return 0;
+        double len = 0;
+        if (!this.arcs.isEmpty()) {
+            for (Arc arc : this.arcs) {
+                len = arc.getTravelTime(arc.getRoadInformation().getMaximumSpeed());
+            }
+            return len;
+        } else {
+            return 0;
+        }
     }
 
 }
