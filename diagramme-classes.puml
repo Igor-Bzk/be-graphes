@@ -53,63 +53,21 @@ class ArcForward {
     + getPoints() : List<Point>
 }
 
-class GraphStatistics {
-    - boundingBox : BoundingBox
-    - nbRoadOneWay : int
-    - nbRoadTwoWays : int
-    - maximumSpeed : int
-    - maximumLength : float
+class Node {
+    - int id
+    - Point point
+    - ArrayList<Arc> successors
 
-    + GraphStatistics(boundingBox : BoundingBox, nbRoadOneWay : int, nbRoadTwoWays : int,
-        maximumSpeed : int, maximumLength : float)
-    + getBoundingBox() : BoundingBox
-    + getOneWayRoadCount() : int
-    + getTwoWaysRoadCount() : int
-    + getArcCount() : int
-    + hasMaximumSpeed() : boolean
-    + getMaximumSpeed() : int
-    + getMaximumLength() : float
-}
+    + Node(int id, Point point)
+    + int getId()
+    + int getNumberOfSuccessors()
+    + boolean hasSuccessors()
+    + List<Arc> getSuccessors()
+    + Point getPoint()
+    + void addSuccessor(Arc arc)
 
-class BoundingBox {
-    - topLeft : Point
-    - bottomRight : Point
-
-    + BoundingBox(topLeft : Point, bottomRight : Point)
-    + getBottomRightPoint() : Point
-    + getTopLeftPoint() : Point
-    + extend(left : float, top : float, right : float, bottom : float) : BoundingBox
-    + extend(size : float) : BoundingBox
-    + contains(point : Point) : boolean
-    + contains(other : BoundingBox) : boolean
-    + toString() : String
-}
-
-class Point {
-    + float longitude
-    + float latitude
-    + static final double EARTH_RADIUS = 6378137.0
-    + Point(float longitude, float latitude)
-    + float getLongitude()
-    + float getLatitude()
-    + double distanceTo(Point target)
-    + String toString()
-    + static double distance(Point p1, Point p2)
-}
-
-class RoadInformation {
-    + RoadType type
-    + AccessRestrictions access
-    + boolean oneway
-    + int maxSpeed
-    + String name
-    + RoadInformation(RoadType, AccessRestrictions, boolean, int, String)
-    + AccessRestrictions getAccessRestrictions()
-    + RoadType getType()
-    + boolean isOneWay()
-    + int getMaximumSpeed()
-    + String getName()
-    + String toString()
+    + static Arc linkNodes(Node origin, Node destination, float length,
+            RoadInformation roadInformation, ArrayList<Point> points)
 }
 
 class Path {
@@ -133,17 +91,6 @@ class Path {
     + createFastestPathFromNodes(Graph, List<Node>)
     + createShortestPathFromNodes(Graph, List<Node>)
     + concatenate(Path...)
-}
-
-class AccessRestrictions {
-    - EnumMap<AccessMode, AccessRestriction> restrictions
-
-    + AccessRestrictions()
-    + AccessRestrictions(EnumMap<AccessMode, AccessRestriction>)
-    + AccessRestriction getRestrictionFor(AccessMode)
-    + boolean isAllowedForAny(AccessMode, EnumSet<AccessRestriction>)
-    + boolean isAllowedFor(AccessMode, AccessRestriction)
-    + boolean areAllAllowedForAny(EnumSet<AccessMode>, EnumSet<AccessRestriction>)
 }
 
 ArcForward .up. Arc
