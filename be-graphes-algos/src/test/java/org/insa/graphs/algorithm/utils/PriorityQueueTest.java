@@ -226,6 +226,7 @@ public abstract class PriorityQueueTest {
         MutableInteger min = new MutableInteger(Collections.min(data).get() - 1),
                 max = new MutableInteger(Collections.max(data).get() + 1);
         try {
+            System.out.println(queue.toString());
             queue.remove(min);
             fail("Expected exception " + ElementNotFoundException.class.getName());
         }
