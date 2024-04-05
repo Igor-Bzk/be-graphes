@@ -288,7 +288,7 @@ public class Path {
         float len = 0;
         if (!this.arcs.isEmpty()) {
             for (Arc arc : this.arcs) {
-                len = arc.getLength();
+                len += arc.getLength();
             }
             return len;
         } else {
@@ -309,7 +309,7 @@ public class Path {
         double len = 0;
         if (!this.arcs.isEmpty()) {
             for (Arc arc : this.arcs) {
-                len = arc.getTravelTime(speed);
+                len += arc.getTravelTime(speed);
             }
             return len;
         } else {
@@ -329,7 +329,7 @@ public class Path {
         double len = 0;
         if (!this.arcs.isEmpty()) {
             for (Arc arc : this.arcs) {
-                len = arc.getTravelTime(arc.getRoadInformation().getMaximumSpeed());
+                len += arc.getTravelTime(arc.getRoadInformation().getMaximumSpeed());
             }
             return len;
         } else {
