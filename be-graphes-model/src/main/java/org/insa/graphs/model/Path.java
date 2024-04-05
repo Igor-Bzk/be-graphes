@@ -244,7 +244,6 @@ public class Path {
      * @deprecated Need to be implemented.
      */
     public boolean isValid() {
-        // TODO:
         boolean R = true;
         boolean R1 = true;
         boolean R2 = true;
