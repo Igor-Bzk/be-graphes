@@ -8,7 +8,6 @@ import org.insa.graphs.algorithm.utils.BinaryHeap;
 import org.insa.graphs.algorithm.utils.ElementNotFoundException;
 import org.insa.graphs.model.Arc;
 import org.insa.graphs.model.Graph;
-import org.insa.graphs.model.Node;
 import org.insa.graphs.model.Path;
 
 public class DijkstraAlgorithm extends ShortestPathAlgorithm {
@@ -45,11 +44,13 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
 
         // boolean found = false;
 
-        while (current.getNode() != data.getDestination() || sommets.isEmpty()) {
+        while (current.getNode() != data.getDestination() && !sommets.isEmpty()) {
             current = sommets.deleteMin();
+            //System.out.println(current.getNode().toString());
             if (current.getNode().hasSuccessors()) {
                 for (Arc arc : current.getNode().getSuccessors()) {
-                    if (!labels[arc.getDestination().getId()].isMarked()) {
+                    //System.out.println(arc.toString());
+                    if (!labels[arc.getDestination().getId()].isMarked() && data.isAllowed(arc)) {
                         double w = data.getCost(arc);
                         Label next_label = labels[arc.getDestination().getId()];
                         double oldDistance = next_label.getCost();
@@ -63,10 +64,10 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
                             // found = false;
                             next_label.setCost(newDistance);
                             next_label.setPere(arc);
-                            try {
+                            /*try {
                                 sommets.remove(next_label);
                             } catch (ElementNotFoundException e) {
-                            }
+                            }*/
                             sommets.insert(next_label);
                         }
                     }
