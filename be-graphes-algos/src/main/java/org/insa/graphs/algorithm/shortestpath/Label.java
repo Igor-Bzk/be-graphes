@@ -6,7 +6,7 @@ import org.insa.graphs.model.Arc;
 public class Label implements Comparable<Label> {
     private Node current_node;
     private Boolean marked;
-    private double current_cost;
+    protected double current_cost;
     private Arc pere;
 
     public Label(Node n, double cost, Arc pere) {

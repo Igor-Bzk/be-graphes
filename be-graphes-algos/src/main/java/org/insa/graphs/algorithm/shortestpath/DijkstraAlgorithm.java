@@ -16,31 +16,40 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         super(data);
     }
 
+    protected Label[] setUpLabels(Graph graph, ShortestPathData data){
+        final int nbNodes = graph.size();
+
+        Label[] labels = new Label[nbNodes];
+        graph.getNodes().forEach(node -> labels[node.getId()] = new Label(node, Double.POSITIVE_INFINITY, null));
+        labels[data.getOrigin().getId()].setCost(0);
+        return labels;
+    }
+
+    protected BinaryHeap<Label> setUpHeap(Label current){
+        BinaryHeap<Label> sommets = new BinaryHeap<Label>();
+        sommets.insert(current);
+
+        return sommets;
+    }
+
     @Override
     protected ShortestPathSolution doRun() {
         final ShortestPathData data = getInputData();
         ShortestPathSolution solution = null;
-        // TODO:
-        // return solution;
 
         // Retrieve the graph.
         Graph graph = data.getGraph();
 
-        final int nbNodes = graph.size();
-
         // Initialize array of distances.
-        Label[] labels = new Label[nbNodes];
-        graph.getNodes().forEach(node -> labels[node.getId()] = new Label(node, Double.POSITIVE_INFINITY, null));
-        labels[data.getOrigin().getId()].setCost(0);
+        Label[] labels = setUpLabels(graph, data);
 
         // Notify observers about the first event (origin processed).
         notifyOriginProcessed(data.getOrigin());
 
-        BinaryHeap<Label> sommets = new BinaryHeap<Label>();
 
         Label current = new Label(data.getOrigin(), 0, null);
 
-        sommets.insert(current);
+        BinaryHeap<Label> sommets = setUpHeap(current);
 
         // boolean found = false;
 
@@ -75,6 +84,8 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
                     }
                 }
                 labels[current.getNode().getId()].mark();
+                notifyNodeMarked(current.getNode());
+
             }
         }
 
