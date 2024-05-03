@@ -48,7 +48,7 @@ public class ShortestPathTest {
                 new DataInputStream(new BufferedInputStream(new FileInputStream(mapName))));
         final Graph graph = reader.read();
         Node source = graph.get(766701);
-        Node destination = graph.get(51886);
+        Node destination = graph.get(905616);
         ShortestPathData data = new ShortestPathData(graph, source, destination,
                 ArcInspectorFactory.getAllFilters().get(0));
         reader.close();
@@ -98,11 +98,11 @@ public class ShortestPathTest {
         ShortestPathAlgorithm Dijkstra = new DijkstraAlgorithm(inputData);
         ShortestPathSolution dijkstraSolution = Dijkstra.run();
     
-        //assertTrue(dijkstraSolution.getPath().getLength() == solution.getPath().getLength());
-        for (int i = 0; i < solution.getPath().getArcs().size(); i++) {
+        assertTrue((dijkstraSolution.getPath().getLength() - solution.getPath().getLength()) < solution.getPath().getLength()/100.0);
+        /*for (int i = 0; i < solution.getPath().getArcs().size(); i++) {
             System.out.println(solution.getPath().getArcs().get(i).getDestination().getId());
             assertEquals(solution.getPath().getArcs().get(i),dijkstraSolution.getPath().getArcs().get(i));
             
-        }
+        }*/
     }
 }

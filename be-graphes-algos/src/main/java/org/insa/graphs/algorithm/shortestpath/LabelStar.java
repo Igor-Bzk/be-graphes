@@ -25,7 +25,13 @@ public class LabelStar extends Label{
     @Override
     public int compareTo(Label l) {
         if (this.getCost() == l.getCost()) {
-            return 0;
+            if (this.getCurrentCost() == l.getCurrentCost()) {
+                return 0;
+            } else if (this.getCurrentCost() > l.getCurrentCost()) {
+                return -1;
+            } else {
+                return 1;
+            }
         } else if (this.getCost() < l.getCost()) {
             return -1;
         } else {
