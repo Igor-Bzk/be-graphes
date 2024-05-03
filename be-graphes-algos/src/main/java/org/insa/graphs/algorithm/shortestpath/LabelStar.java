@@ -17,11 +17,13 @@ public class LabelStar extends Label{
         this.coutEstime = coutEstime;
     }
     
+    @Override
     public double getCost() {
         return coutEstime + this.current_cost;
     }
 
-    public int compareTo(LabelStar l) {
+    @Override
+    public int compareTo(Label l) {
         if (this.getCost() == l.getCost()) {
             return 0;
         } else if (this.getCost() < l.getCost()) {

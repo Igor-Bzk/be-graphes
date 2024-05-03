@@ -62,8 +62,8 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
                     if (!labels[arc.getDestination().getId()].isMarked() && data.isAllowed(arc)) {
                         double w = data.getCost(arc);
                         Label next_label = labels[arc.getDestination().getId()];
-                        double oldDistance = next_label.getCost();
-                        double newDistance = labels[current.getNode().getId()].getCost() + w;
+                        double oldDistance = next_label.getCurrentCost();
+                        double newDistance = labels[current.getNode().getId()].getCurrentCost() + w;
 
                         if (Double.isInfinite(oldDistance) && Double.isFinite(newDistance)) {
                             notifyNodeReached(arc.getDestination());

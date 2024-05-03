@@ -20,6 +20,10 @@ public class Label implements Comparable<Label> {
         return current_cost;
     }
 
+    public double getCurrentCost(){
+        return current_cost;
+    }
+
     public Node getNode() {
         return this.current_node;
     }
