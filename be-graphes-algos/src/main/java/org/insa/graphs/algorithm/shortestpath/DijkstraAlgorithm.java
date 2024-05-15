@@ -53,11 +53,15 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
 
         // boolean found = false;
 
+
         while (current.getNode() != data.getDestination() && !sommets.isEmpty()) {
             current = sommets.deleteMin();
+
+            
             // System.out.println(current.getNode().toString());
             if (current.getNode().hasSuccessors()) {
                 for (Arc arc : current.getNode().getSuccessors()) {
+                    
                     // System.out.println(arc.toString());
                     if (!labels[arc.getDestination().getId()].isMarked() && data.isAllowed(arc)) {
                         double w = data.getCost(arc);
@@ -71,17 +75,19 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
 
                         if (newDistance < oldDistance) {
                             // found = false;
-                            next_label.setCost(newDistance);
-                            next_label.setPere(arc);
                             if (Double.isFinite(oldDistance)) {
                                 try {
                                     sommets.remove(next_label);
                                 } catch (ElementNotFoundException e) {
+                                    System.err.println("Element not found in the heap");
                                 }
                             }
+                            next_label.setCost(newDistance);
+                            next_label.setPere(arc);
                             sommets.insert(next_label);
                         }
                     }
+
                 }
                 labels[current.getNode().getId()].mark();
                 notifyNodeMarked(current.getNode());

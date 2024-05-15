@@ -24,6 +24,7 @@ import org.insa.graphs.algorithm.shortestpath.DijkstraAlgorithm;
 import org.insa.graphs.algorithm.shortestpath.ShortestPathAlgorithm;
 import org.insa.graphs.algorithm.shortestpath.ShortestPathData;
 import org.insa.graphs.algorithm.shortestpath.ShortestPathSolution;
+import org.insa.graphs.model.Arc;
 import org.insa.graphs.model.Graph;
 import org.insa.graphs.model.Node;
 import org.junit.Assume;
@@ -48,7 +49,7 @@ public class ShortestPathTest {
                 new DataInputStream(new BufferedInputStream(new FileInputStream(mapName))));
         final Graph graph = reader.read();
         Node source = graph.get(766701);
-        Node destination = graph.get(905616);
+        Node destination = graph.get(905615);
         ShortestPathData data = new ShortestPathData(graph, source, destination,
                 ArcInspectorFactory.getAllFilters().get(0));
         reader.close();
@@ -97,12 +98,26 @@ public class ShortestPathTest {
     public void DijkstraEqualsAStar() {
         ShortestPathAlgorithm Dijkstra = new DijkstraAlgorithm(inputData);
         ShortestPathSolution dijkstraSolution = Dijkstra.run();
-    
+        ArrayList<Integer> diverging = new ArrayList<Integer>();
+        boolean affichage = false;
+
         assertTrue((dijkstraSolution.getPath().getLength() - solution.getPath().getLength()) < solution.getPath().getLength()/100.0);
-        /*for (int i = 0; i < solution.getPath().getArcs().size(); i++) {
+        for (int i = 0; i < solution.getPath().getArcs().size(); i++) {
             System.out.println(solution.getPath().getArcs().get(i).getDestination().getId());
-            assertEquals(solution.getPath().getArcs().get(i),dijkstraSolution.getPath().getArcs().get(i));
+            if (solution.getPath().getArcs().get(i).getDestination().getId() == 51885) {
+                affichage = true;
+            }
+            if (solution.getPath().getArcs().get(i).getDestination().getId() == 54921) {
+                affichage = false;
+            }
+            if (affichage){
+                System.out.println("arc : "+dijkstraSolution.getPath().getArcs().get(i).getDestination().getId());
+                diverging.add(dijkstraSolution.getPath().getArcs().get(i).getDestination().getId());
+            }
+            //assertEquals(solution.getPath().getArcs().get(i),dijkstraSolution.getPath().getArcs().get(i));
             
-        }*/
+            
+        }
+        assertEquals(diverging,new ArrayList<Integer>());
     }
 }
