@@ -1,0 +1,42 @@
+marathon
+
+modéliser une ellipse
+
+critère de temps de parcours (coût) : intervalle
+critère de longueur de parcours : intervalle (<=42.195km)
+
+ellipse 1
+
+si temps en dessous de l'intervalle{
+	raccourcir ellipse1
+}
+sinon, si temps au-dessus de l'intervalle{
+	allonger ellipse1
+}
+sinon, si temps dans l'intervalle{
+	si longueur en dessous de l'intervalle{
+		allonger ellipse1
+	}
+	sinon, si longueur au-dessus de l'intervalle{
+		raccourcir ellipse1
+	}
+	sinon, si longueur dans l'intervalle{
+		valider ellipse1
+	}
+}
+
+
+fonction raccourcir ellipse (elips E){
+	diminuer longitude max
+	diminuer latitude max
+	--> changement de coordonnées
+}
+
+fonction allonger ellipse (elips E){
+	augmenter longitude min
+	augmenter latitude min
+	--> changement de coordonnées
+}
+
+commencer à un sommet et incrémenter
+
