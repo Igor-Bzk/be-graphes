@@ -1,42 +1,62 @@
-marathon
+MARATHON
 
-modéliser une ellipse
-
-critère de temps de parcours (coût) : intervalle
+critère de temps de parcours (coût) : intervalle (<=13h)
 critère de longueur de parcours : intervalle (<=42.195km)
 
-ellipse 1
+parcours 1
 
 si temps en dessous de l'intervalle{
-	raccourcir ellipse1
+	raccourcir parcours1
 }
 sinon, si temps au-dessus de l'intervalle{
-	allonger ellipse1
+	allonger parcours1
 }
 sinon, si temps dans l'intervalle{
 	si longueur en dessous de l'intervalle{
-		allonger ellipse1
+		allonger parcours1
 	}
 	sinon, si longueur au-dessus de l'intervalle{
-		raccourcir ellipse1
+		raccourcir parcours1
 	}
 	sinon, si longueur dans l'intervalle{
-		valider ellipse1
+		valider parcours1
 	}
 }
 
 
-fonction raccourcir ellipse (elips E){
-	diminuer longitude max
-	diminuer latitude max
-	--> changement de coordonnées
+fonction raccourcir parcours1 (parcours P){
+	retirer sommet
 }
 
-fonction allonger ellipse (elips E){
-	augmenter longitude min
-	augmenter latitude min
-	--> changement de coordonnées
+fonction allonger parcours1 (parcours P){
+	ajouter sommet
 }
 
-commencer à un sommet et incrémenter
+Solution correcte mais pas forcément optimale : ajouter des sommets au chemins, jusqu'à ce que l'on obtienne le résultat pile.
+Si la longueur du chemin est supérieure au résultat, on revient au sommet précédent et on s'arrête.
+Complexité : o(m²), m : nombre de sommets.
+
+Pour la solution optimale (cas d'une valeur précise ou d'un petit intervalle, par exemple) :
+-Force brute : considérer toutes les permutations des sommets possibles dans les chemins. Complexité : o(2^m).
+-Élaguer l'arbre des possibilités : quels chemins ne peuvent pas donner la solution optimale.
+
+Solution intermédiare : ajouter des sommets au chemins, jusqu'à ce que l'on obtienne le résultat pile.
+Si la longueur du chemin est supérieure au résultat, on revient au sommet précédent et on considère un autre voisin.
+Complexité : o(2^m).
+
+Pile = p;
+empiler p(origine);
+Tableau [m] marqués;
+Tableau [m] pères;
+tant que p non vide et longueur != 42.195 faire:
+s = dépiler p;
+pour tout voisin v de p:
+si v non marqué:
+si longueur + longueur(arc vers v)*2 <42.195;
+pere[v] = s;
+empiler v;
+marquer s;
+fin tant que
+
+-> marathon avec un aller-retour
 
