@@ -1,4 +1,6 @@
-@startuml graphes
+@startuml
+
+scale 2/3
 
 class Graph {
     - nodes: List<Node>
@@ -14,11 +16,6 @@ class Graph {
     + toString(): String
 }
 
-interface Arc {
-    + getOrigin() : Node
-    + getDestination() : Node
-    + getLength() : float
-}
 
 class Node {
     - ArrayList<Arc> successors
@@ -32,7 +29,14 @@ class Node {
             RoadInformation roadInformation, ArrayList<Point> points)
 }
 
-class Path {
+
+
+class RoadInformation{
+    - Roadtype type
+}
+
+
+  class Path {
     - Graph graph
     - Node origin
     - List<Arc> arcs
@@ -47,19 +51,21 @@ class Path {
     + boolean isEmpty()
     + int size()
 }
-
-class RoadInformation{
-    - Roadtype type
+  interface Arc {
+    + getOrigin() : Node
+    + getDestination() : Node
+    + getLength() : float
 }
 
+
+
 Graph "1" *-> "*" Node : est composé de
-Node "1" o-> "*" Arc : est le début de
+Node "1" o---> "*" Arc : est le début de
 Path "1" *-> "1" Node : est composé de
 Arc "1" *-> "2" Node : lie
-Path "1" *-> "1..*" Arc : est composé de 
+Graph -[hidden]---> Arc
+Arc -[hidden]-> Graph
 Path "1" *-> "1" Graph : est dans
+Path "1" *---> "1..*" Arc : est composé de 
 Arc --> RoadInformation : dsqd
-
-
-
 @enduml
