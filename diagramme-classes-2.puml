@@ -1,0 +1,98 @@
+@startuml
+class BinaryHeap<Label> {
+    - int size
+    + insert(Label label): void
+    + deleteMin(): Label
+    + remove(Label label): void
+}
+
+class DijkstraAlgorithm extends ShortestPathAlgorithm{
+    - Label[] labels
+    + DijkstraAlgorithm(ShortestPathData)
+    + setUpLabels(Graph graph, ShortestPathData data): Label[]
+    + setUpHeap(Label current): BinaryHeap<Label>
+    + doRun(): ShortestPathSolution
+}
+
+
+class Label {
+    - Node node
+    - double cost
+    - Label parent
+    + Label(Node node, double cost, Label parent): void
+    + getCurrentCost(): double
+    + setCost(double cost): void
+    + isMarked(): boolean
+    + mark(): void
+    + getPere(): Label
+    + setPere(Arc pere): void
+}
+
+
+
+class ShortestPathAlgorithm {
+    - ShortestPathData data
+    + ShortestPathAlgorithm(ShortestPathData data): void
+    + getInputData(): ShortestPathData
+    + notifyOriginProcessed(Node origin): void
+    + notifyNodeReached(Node node): void
+    + notifyNodeMarked(Node node): void
+    + notifyDestinationReached(Node destination): void
+}
+
+class ShortestPathData {
+    - Graph graph
+    - Node origin
+    - Node destination
+    + ShortestPathData(Graph graph, Node origin, Node destination): void
+    + getGraph(): Graph
+    + getOrigin(): Node
+    + getDestination(): Node
+    + isAllowed(Arc arc): boolean
+    + getCost(Arc arc): double
+}
+
+class AStarAlgorithm extends DijkstraAlgorithm {
+  - ShortestPathData data
+  + AStarAlgorithm(ShortestPathData)
+  + setUpLabels(Graph, ShortestPathData): LabelStar[]
+  + setUpHeap(Label): BinaryHeap<Label>
+}
+
+class BellmanFordAlgorithm extends ShortestPathAlgorithm{
+    - ShortestPathData data
+    + BellmanFordAlgorithm(ShortestPathData)
+    + doRun() : ShortestPathSolution
+}
+
+class LabelStar extends Label{
+  - Node node
+  - double cost
+  - Arc pere
+  - double coutEstime
+  + LabelStar(Node, double, Arc, double)
+  + LabelStar(Label, double)
+  + getCost(): double
+  + compareTo(Label): int
+}
+
+class ShortestPathSolution{
+    - ShortestPathData data
+    - Status status
+    - Path path
+    + ShortestPathSolution(ShortestPathData data, Status status): void
+    + ShortestPathSolution(ShortestPathData data, Status status, Path path): void
+    + getData(): ShortestPathData
+    + getStatus(): Status
+    + getPath(): Path
+}
+
+BinaryHeap "1"->"*" Label : contient
+ShortestPathAlgorithm "1"->"1" ShortestPathSolution : calcule
+
+ShortestPathAlgorithm "1"->"1" ShortestPathData : utilise
+ShortestPathSolution -[hidden]-> Label
+DijkstraAlgorithm "1" -> "1" BinaryHeap : utilise
+DijkstraAlgorithm "1" -> "*" Label : utilise
+AStarAlgorithm "1" -> "*" LabelStar : utilise
+@enduml
