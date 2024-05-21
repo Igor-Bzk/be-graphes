@@ -67,5 +67,5 @@ Graph -[hidden]---> Arc
 Arc -[hidden]-> Graph
 Path "1" *-> "1" Graph : est dans
 Path "1" *---> "1..*" Arc : est composé de 
-Arc --> RoadInformation : dsqd
+Arc --> RoadInformation : utilise
 @enduml
