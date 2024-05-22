@@ -18,9 +18,9 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
 
     //Label : noeud + distance parcourue jusqu'a ce noeud + arc par lequel on est arrive a ce noeud
     //retourne un tableau de Label initialises comme tel :
-    //noeud -> un noeud du graphe rentre en parametre de la fonction (initialisation pour tous les noeuds du graphe)
+    //noeud -> un noeud du graphe rentre en parametre de la fonction (initialisation pour tous les noeuds du graphe) ;
     //distance parcourue jusqu'a ce noeud -> infini ;
-    //arc par lequel on est arrive a ce noeud -> null
+    //arc par lequel on est arrive a ce noeud -> null.
     protected Label[] setUpLabels(Graph graph, ShortestPathData data){
         final int nbNodes = graph.size();
 
@@ -73,7 +73,10 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
                         double w = data.getCost(arc);
                         Label next_label = labels[arc.getDestination().getId()];
                         double oldDistance = next_label.getCurrentCost();
+                        //distance jusqu'au noeud du tableau de Label actuellement considere comme optimal
+                        
                         double newDistance = labels[current.getNode().getId()].getCurrentCost() + w;
+                        //longueur d'un chemin passant par current menant jusqu'au noeud : longueur de l'origine jusqu'a current + longueur de current jusqu'au noeud
 
                         if (Double.isInfinite(oldDistance) && Double.isFinite(newDistance)) {
                             notifyNodeReached(arc.getDestination());

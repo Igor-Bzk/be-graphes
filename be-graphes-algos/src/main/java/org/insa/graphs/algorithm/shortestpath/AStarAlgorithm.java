@@ -14,9 +14,14 @@ public class AStarAlgorithm extends DijkstraAlgorithm {
     }
 
     @Override
+    //LabelStar : Label (noeud + distance parcourue jusqu'a ce noeud + arc par lequel on est arrive a ce noeud) + cout estime
+    //retourne un tableau de LabelStar initialises comme tel :
+    //noeud -> de meme que dans Label ;
+    //distance parcourue jusqu'a ce noeud -> de meme que dans Label ;
+    //arc par lequel on est arrive a ce noeud -> de meme que dans Label ;
+    //cout estime -> distance a vol d'oiseau (donnee qui est soit en kilometres, soit en secondes. Si elle est en secondes, division par la vitesse maximale du graphe) jusqu'a la destination.
     protected LabelStar[] setUpLabels(Graph graph, ShortestPathData data){
         final int nbNodes = graph.size();
-
         LabelStar[] labels = new LabelStar[nbNodes];
         if (data.getMode() == Mode.LENGTH){
             graph.getNodes().forEach(node -> labels[node.getId()] = new LabelStar(node, Double.POSITIVE_INFINITY, null, node.getPoint().distanceTo(data.getDestination().getPoint())));
@@ -28,6 +33,7 @@ public class AStarAlgorithm extends DijkstraAlgorithm {
     }
 
     @Override
+    //meme chose que BinaryHeap avec des Label dans DijkstraAlgorithm.java, mais avec des LabelStar a la place des Label
     protected BinaryHeap<Label> setUpHeap(Label current){
         BinaryHeap<Label> sommets = new BinaryHeap<Label>();
 
