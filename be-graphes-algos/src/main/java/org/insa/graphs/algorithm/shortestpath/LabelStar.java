@@ -12,6 +12,7 @@ public class LabelStar extends Label{
         this.coutEstime = coutEstime;
     }
 
+    //constructeur permettant de construire un LabelStar a partir d'un Label et d'un cout estime
     public LabelStar(Label l, double coutEstime){
         super(l.getNode(), l.getCost(), l.getPere());
         this.coutEstime = coutEstime;

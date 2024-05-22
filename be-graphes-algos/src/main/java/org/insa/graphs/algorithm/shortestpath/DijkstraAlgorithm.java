@@ -16,6 +16,11 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         super(data);
     }
 
+    //Label : noeud + distance parcourue jusqu'a ce noeud + arc par lequel on est arrive a ce noeud
+    //retourne un tableau de Label initialises comme tel :
+    //noeud -> un noeud du graphe rentre en parametre de la fonction (initialisation pour tous les noeuds du graphe)
+    //distance parcourue jusqu'a ce noeud -> infini ;
+    //arc par lequel on est arrive a ce noeud -> null
     protected Label[] setUpLabels(Graph graph, ShortestPathData data){
         final int nbNodes = graph.size();
 
@@ -25,6 +30,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         return labels;
     }
 
+    //retourne un tas binaire (classe contenant des Label) auquel on associe un Label
     protected BinaryHeap<Label> setUpHeap(Label current){
         BinaryHeap<Label> sommets = new BinaryHeap<Label>();
         sommets.insert(current);

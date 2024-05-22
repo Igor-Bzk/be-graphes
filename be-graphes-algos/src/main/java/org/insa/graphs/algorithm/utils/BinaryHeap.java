@@ -134,6 +134,9 @@ public class BinaryHeap<E extends Comparable<E>> implements PriorityQueue<E> {
     }
 
     @Override
+    //supression de l'element en l'ecrasant par le dernier element du tableau dans un premier temps
+    //dans un deuxieme temps, reduire la taille du tableau de 1, supprimant ainsi le dernier element
+    //replacer le dernier element a sa place dans l'arbre binaire avec percolateDown() et percolateUp()
     public void remove(E x) throws ElementNotFoundException {
             int index = -1;
             if (isEmpty()){
@@ -149,6 +152,8 @@ public class BinaryHeap<E extends Comparable<E>> implements PriorityQueue<E> {
                 currentSize-=1;
                 this.percolateDown(index);
                 this.percolateUp(index);
+                //percolateDown() si le dernier element n'est pas plus petit que son parent et qu'il doit etre descendu car il est plus grand que son enfant
+                //percolateUp() si le dernier element doit etre remonte car il est plus petit que son parent
             }
     }
 
