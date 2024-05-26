@@ -26,7 +26,11 @@ public class AStarAlgorithm extends DijkstraAlgorithm {
         if (data.getMode() == Mode.LENGTH){
             graph.getNodes().forEach(node -> labels[node.getId()] = new LabelStar(node, Double.POSITIVE_INFINITY, null, node.getPoint().distanceTo(data.getDestination().getPoint())));
         } else {
-            graph.getNodes().forEach(node -> labels[node.getId()] = new LabelStar(node, Double.POSITIVE_INFINITY, null, node.getPoint().distanceTo(data.getDestination().getPoint())*3.6/graph.getGraphInformation().getMaximumSpeed()));
+            if (graph.getGraphInformation().getMaximumSpeed() == -1){
+                graph.getNodes().forEach(node -> labels[node.getId()] = new LabelStar(node, Double.POSITIVE_INFINITY, null, node.getPoint().distanceTo(data.getDestination().getPoint())*3.6/120));
+            } else {
+                graph.getNodes().forEach(node -> labels[node.getId()] = new LabelStar(node, Double.POSITIVE_INFINITY, null, node.getPoint().distanceTo(data.getDestination().getPoint())*3.6/graph.getGraphInformation().getMaximumSpeed()));
+            }
         }
         labels[data.getOrigin().getId()].setCost(0);
         return labels;

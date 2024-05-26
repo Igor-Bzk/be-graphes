@@ -69,16 +69,18 @@ public class ShortestPathTest {
 
     @Test
     public void originIsOrigin() {
+        //verifie que l'origine du chemin est bien l'origine des données
         assertEquals(inputData.getOrigin(), solution.getPath().getOrigin());
     }
 
     @Test
     public void isValidPath() {
+        //verifie que le chemin est valide
         assertTrue(solution.getPath().isValid());
     }
     @Test
     public void runsFaster(){
-
+        // ne fait pas rééllement de test, mais permet de comparer les temps d'execution de Dijkstra et AStar en les affichant
         long startTime = System.nanoTime();
         ShortestPathAlgorithm aStarAlgorithm = new AStarAlgorithm(inputData);
         ShortestPathSolution solution = aStarAlgorithm.run();
@@ -91,7 +93,8 @@ public class ShortestPathTest {
         ShortestPathSolution dijkstraSolution = Dijkstra.run();
         endTime = System.nanoTime();
         long duration2 = (endTime - startTime);
-        System.out.println((duration2 - duration));
+        //print time in minutes, second,  and miliseconds
+        System.out.println("Dijkstra : " + (duration2/1000000000)%60 + "s " + (duration2/1000000)%1000 + "ms et AStar : " + (duration/1000000000)%60 + "s " + (duration/1000000)%1000 + "ms"); 
     }
 
     @Test
@@ -103,6 +106,10 @@ public class ShortestPathTest {
 
         assertTrue(dijkstraSolution.getPath().getLength() == solution.getPath().getLength());
         
+
+        //boucle de test pour vérifier que les deux solutions sont exactement les mêmes
+        //inutile car trop long et equivalent au test de la longueur du chemin (et peut même retourner de faux negatifs si les chemins sont differents mais de meme longueur)
+
         // for (int i = 0; i < solution.getPath().getArcs().size(); i++) {
         //     System.out.println(solution.getPath().getArcs().get(i).getDestination().getId());
         //     if (solution.getPath().getArcs().get(i).getDestination().getId() == 51885) {
